@@ -56,13 +56,22 @@ function updateUser (req,res){
   .then(dataUser => {
     if (!hash) {
       hash = dataUser[0].password
-    } User.update({_id: dataUser[0]})
-  }).catch(err = {
+    } User.update({_id: dataUser[0]}, {
+      $set: {
+        name: req.body.name || dataUser[0].name,
+        email: req.body.email || dataUser[0].email,
+        password: req.body.password || dataUser[0].password,
+        updated_at: new Date()
+      }
+    }).then(dataUpdate => {
+      res.send(dataUpdate)
+    }).catch(err=>{
+      res.send(err)
+    })
+  }).catch(err => {
     res.send(err)
   })
-
 }
-
 
 function login(req,res){
   User.findOne({email:req.body.email}).then(dataUser => {
@@ -86,5 +95,6 @@ module.exports = {
   getAllUser,
   getSingleUser,
   deleteUser,
+  updateUser,
   login
 }
