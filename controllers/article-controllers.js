@@ -31,17 +31,23 @@ function getSingleArticle(req,res){
   })
 }
 
-function getByAuthor(req,res){
-  Article.findOne({
-    $or: [
-
-    ]'author':req.body.author[0]})
-  .then(dataArticle=>{
-    res.send(dataArticle)
-  }).catch(error=>{
-    res.send(error)
-  })
-}
+// function getByAuthor(req,res){
+//   Article.find({ author:req.body.author})
+//   .then(dataArticle=>{
+//     res.send(dataArticle)
+//   }).catch(error=>{
+//     res.send(error)
+//   })
+// }
+//
+// function getByCategory(req,res){
+//   Article.find({category:req.body.category})
+//   .then(dataArticle=>{
+//     res.send(dataArticle)
+//   }).catch(error=>{
+//     res.send(error)
+//   })
+// }
 
 function deleteArticle(req,res){
   Article.remove({"_id":req.params.id})
@@ -83,7 +89,8 @@ module.exports = {
   createArticle,
   getAllArticle,
   getSingleArticle,
-  getByAuthor,
+  // getByAuthor,
+  // getByCategory,
   deleteArticle,
   updateArticle
 }

@@ -11,9 +11,9 @@ const kunci = process.env.KEY_SCRT;
 function createUser(req,res){
   var hash = bcrypt.hashSync(req.body.password, salt);
    User.create({
-     name       : req.body.name,
+     username   : req.body.username,
      email      : req.body.email,
-     password   : hash,
+     password   : hash
    }).then(dataUser => {
      res.send(dataUser)
    }).catch(error => {
@@ -58,7 +58,7 @@ function updateUser (req,res){
       hash = dataUser[0].password
     } User.update({_id: dataUser[0]}, {
       $set: {
-        name: req.body.name || dataUser[0].name,
+        username: req.body.username || dataUser[0].username,
         email: req.body.email || dataUser[0].email,
         password: req.body.password || dataUser[0].password,
         updated_at: new Date()
@@ -73,13 +73,13 @@ function updateUser (req,res){
   })
 }
 
-function login(req,res){
+function signin(req,res){
   User.findOne({email:req.body.email}).then(dataUser => {
     console.log('==>>',dataUser._id);
         if (bcrypt.compareSync(req.body.password, dataUser.password)) {
            let token = jwt.sign({email: dataUser.email, role: dataUser.role, userid: dataUser._id}, kunci, {expiresIn:'1h'})
            console.log('success');
-           res.send({user_id: dataUser._id, user_name: dataUser.name, token: token})
+           res.send({user_id: dataUser._id, username: dataUser.username, token: token})
       } else {
         console.log('failed');
         res.send('wrong password')
@@ -96,5 +96,5 @@ module.exports = {
   getSingleUser,
   deleteUser,
   updateUser,
-  login
+  signin
 }

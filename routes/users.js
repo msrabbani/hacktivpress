@@ -4,9 +4,9 @@ var router = express.Router();
 
 router.get('/', Contr.getAllUser)
 router.get('/:id', Contr.getSingleUser)
-router.post('/', Contr.createUser)
 router.delete('/:id', Contr.deleteUser)
 router.put('/:id', Contr.updateUser)
-router.post('/login', Contr.login)
+router.post('/signup', Contr.createUser)
+router.post('/signin', Contr.signin)
 
 module.exports = router;
